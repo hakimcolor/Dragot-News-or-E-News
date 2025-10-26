@@ -1,10 +1,11 @@
 import { createBrowserRouter } from "react-router";
 import Header from "../Components/Header";
+import HomeLayout from "../layouts/HomeLayout";
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Header></Header>
+    element:<HomeLayout></HomeLayout>
   }, {
     path: '/auth',
     element:<div>it's a auth page </div>
