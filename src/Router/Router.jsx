@@ -17,11 +17,11 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'about',
+        path: '/about',
         element: <About />,
       },
       {
-        path: 'career',
+        path: '/career',
         element: <Career />,
       },
     ],
@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: 'singup', // <-- child path থেকে leading slash বাদ
+        path: 'singup', 
         element: <Singup />,
       },
     ],
