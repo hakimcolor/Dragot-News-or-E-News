@@ -18,27 +18,27 @@ const HeadLine = () => {
           📰 PM announces new economic reforms to boost startup ecosystem in
           South Asia.
         </p>
-        <p className="whitespace-nowrap">
+        <p className="whitespace-nowrap  ml-5">
           🌐 Global Summit 2025: Leaders unite in Geneva to discuss AI
           governance and ethics.
         </p>
-        <p className="whitespace-nowrap">
+        <p className="whitespace-nowrap ml-5">
           💹 Dhaka Stock Exchange sees record gains as tech sector leads strong
           rally.
         </p>
-        <p className="whitespace-nowrap">
+        <p className="whitespace-nowrap ml-5">
           ⚽ Sports Update: Bangladesh advances to the semifinals after
           thrilling 3-2 win.
         </p>
-        <p className="whitespace-nowrap">
+        <p className="whitespace-nowrap ml-5">
           🧠 Science & Tech: NASA confirms successful landing of Artemis cargo
           module on the Moon.
         </p>
-        <p className="whitespace-nowrap">
+        <p className="whitespace-nowrap ml-5">
           🎬 Entertainment Buzz: “The Bengal Horizon” wins Best International
           Feature at Cannes.
         </p>
-        <p className="whitespace-nowrap">
+        <p className="whitespace-nowrap ml-5">
           🌦️ Weather Alert: Mild cold wave expected in northern districts from
           tomorrow.
         </p>
