@@ -4,6 +4,7 @@ import Header from '../Components/Header';
 import HeadLine from '../Components/HeadLine';
 import Footer from '../Components/Footer';
 import Navber from '../Components/Navber';
+import demoCardThumbnail from '../assets/demo-card-thumbnail.png';
 
 const HomeLayout = () => {
   return (
