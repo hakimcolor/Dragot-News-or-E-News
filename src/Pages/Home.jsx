@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   FaEye,
@@ -7,6 +8,11 @@ import {
   FaUser,
   FaArrowRight,
 } from 'react-icons/fa';
+
+// Import local assets
+import demoCardThumbnail from '../assets/demo-card-thumbnail.png';
+import demoUser from '../assets/demo-user.png';
+import userImg from '../assets/user.png';
 
 const Home = () => {
   const [news, setNews] = useState([]);
@@ -58,6 +64,15 @@ const Home = () => {
     });
   };
 
+  // Function to get fallback image
+  const getImageSrc = (imageUrl, fallback = demoCardThumbnail) => {
+    return imageUrl || fallback;
+  };
+
+  const getUserImageSrc = (imageUrl, fallback = demoUser) => {
+    return imageUrl || fallback;
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-96">
@@ -86,57 +101,71 @@ const Home = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="card bg-white shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer"
             >
-              <figure className="relative overflow-hidden">
-                <img
-                  src={article.thumbnail_url}
-                  alt={article.title}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute top-3 right-3">
-                  <span className="badge badge-secondary text-white font-semibold">
-                    {article.rating.badge}
-                  </span>
-                </div>
-              </figure>
-
-              <div className="card-body p-4">
-                <h3 className="card-title text-lg font-bold text-primary line-clamp-2 group-hover:text-secondary transition-colors">
-                  {article.title}
-                </h3>
-
-                <p className="text-gray-600 text-sm line-clamp-3 mt-2">
-                  {article.details}
-                </p>
-
-                <div className="flex items-center justify-between mt-4 text-sm text-gray-500">
-                  <div className="flex items-center gap-2">
-                    <FaUser className="text-xs" />
-                    <span>{article.author.name}</span>
+              <Link
+                to={`/news/${article.id}`}
+                className="card bg-white shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer block"
+              >
+                <figure className="relative overflow-hidden">
+                  <img
+                    src={getImageSrc(article.thumbnail_url)}
+                    alt={article.title}
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      e.target.src = demoCardThumbnail;
+                    }}
+                  />
+                  <div className="absolute top-3 right-3">
+                    <span className="badge badge-secondary text-white font-semibold">
+                      {article.rating.badge}
+                    </span>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1">
-                      <FaEye className="text-xs" />
-                      <span>{article.total_view}</span>
+                </figure>
+
+                <div className="card-body p-4">
+                  <h3 className="card-title text-lg font-bold text-primary line-clamp-2 group-hover:text-secondary transition-colors">
+                    {article.title}
+                  </h3>
+
+                  <p className="text-gray-600 text-sm line-clamp-3 mt-2">
+                    {article.details}
+                  </p>
+
+                  <div className="flex items-center justify-between mt-4 text-sm text-gray-500">
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={getUserImageSrc(article.author.img)}
+                        alt={article.author.name}
+                        className="w-6 h-6 rounded-full object-cover"
+                        onError={(e) => {
+                          e.target.src = demoUser;
+                        }}
+                      />
+                      <span>{article.author.name}</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <FaStar className="text-yellow-500 text-xs" />
-                      <span>{article.rating.number}</span>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-1">
+                        <FaEye className="text-xs" />
+                        <span>{article.total_view}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <FaStar className="text-yellow-500 text-xs" />
+                        <span>{article.rating.number}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="flex items-center justify-between mt-3">
-                  <div className="flex items-center gap-1 text-xs text-gray-500">
-                    <FaCalendarAlt />
-                    <span>{formatDate(article.author.published_date)}</span>
+                  <div className="flex items-center justify-between mt-3">
+                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                      <FaCalendarAlt />
+                      <span>{formatDate(article.author.published_date)}</span>
+                    </div>
+                    <span className="text-secondary font-medium text-sm group-hover:underline">
+                      Read More <FaArrowRight className="inline ml-1 text-xs" />
+                    </span>
                   </div>
-                  <button className="btn btn-sm btn-ghost text-secondary hover:bg-secondary hover:text-white">
-                    Read More <FaArrowRight className="ml-1 text-xs" />
-                  </button>
                 </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -150,9 +179,9 @@ const Home = () => {
       >
         <div className="flex flex-wrap gap-2 mb-6">
           {categories.map((category) => (
-            <button
+            <Link
               key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
+              to={`/category/${category.id}`}
               className={`btn btn-sm ${
                 selectedCategory === category.id
                   ? 'btn-secondary text-white'
@@ -160,7 +189,7 @@ const Home = () => {
               } hover:scale-105 transition-transform`}
             >
               {category.name}
-            </button>
+            </Link>
           ))}
         </div>
       </motion.section>
@@ -183,29 +212,36 @@ const Home = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="flex gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer group"
               >
-                <img
-                  src={article.thumbnail_url}
-                  alt={article.title}
-                  className="w-24 h-24 object-cover rounded-lg shrink-0 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="flex-1">
-                  <h3 className="font-semibold text-primary line-clamp-2 group-hover:text-secondary transition-colors">
-                    {article.title}
-                  </h3>
-                  <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
-                    <div className="flex items-center gap-1">
-                      <FaEye />
-                      <span>{article.total_view}</span>
+                <Link
+                  to={`/news/${article.id}`}
+                  className="flex gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer group block"
+                >
+                  <img
+                    src={getImageSrc(article.thumbnail_url)}
+                    alt={article.title}
+                    className="w-24 h-24 object-cover rounded-lg shrink-0 group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      e.target.src = demoCardThumbnail;
+                    }}
+                  />
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-primary line-clamp-2 group-hover:text-secondary transition-colors">
+                      {article.title}
+                    </h3>
+                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                      <div className="flex items-center gap-1">
+                        <FaEye />
+                        <span>{article.total_view}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <FaStar className="text-yellow-500" />
+                        <span>{article.rating.number}</span>
+                      </div>
+                      <span>{formatDate(article.author.published_date)}</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <FaStar className="text-yellow-500" />
-                      <span>{article.rating.number}</span>
-                    </div>
-                    <span>{formatDate(article.author.published_date)}</span>
                   </div>
-                </div>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -219,69 +255,72 @@ const Home = () => {
         transition={{ duration: 0.6, delay: 0.5 }}
       >
         <h2 className="text-2xl font-bold text-primary mb-6 border-l-4 border-secondary pl-4">
-          {selectedCategory === 0
-            ? 'All News'
-            : categories.find((cat) => cat.id === selectedCategory)?.name}
+          Latest News
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredNews.slice(0, 12).map((article, index) => (
+          {news.slice(0, 12).map((article, index) => (
             <motion.div
               key={article.id}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: index * 0.05 }}
-              className="card bg-white shadow hover:shadow-lg transition-all duration-300 group cursor-pointer"
             >
-              <figure className="relative overflow-hidden">
-                <img
-                  src={article.thumbnail_url}
-                  alt={article.title}
-                  className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                {article.others?.is_today_pick && (
-                  <div className="absolute top-2 left-2">
-                    <span className="badge badge-accent text-white text-xs">
-                      Editor's Pick
-                    </span>
-                  </div>
-                )}
-              </figure>
-
-              <div className="card-body p-4">
-                <h3 className="card-title text-base font-semibold text-primary line-clamp-2 group-hover:text-secondary transition-colors">
-                  {article.title}
-                </h3>
-
-                <p className="text-gray-600 text-sm line-clamp-2 mt-2">
-                  {article.details}
-                </p>
-
-                <div className="flex items-center justify-between mt-3 text-xs text-gray-500">
-                  <span>{article.author.name}</span>
-                  <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1">
-                      <FaEye />
-                      <span>{article.total_view}</span>
+              <Link
+                to={`/news/${article.id}`}
+                className="card bg-white shadow hover:shadow-lg transition-all duration-300 group cursor-pointer block"
+              >
+                <figure className="relative overflow-hidden">
+                  <img
+                    src={getImageSrc(article.thumbnail_url)}
+                    alt={article.title}
+                    className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      e.target.src = demoCardThumbnail;
+                    }}
+                  />
+                  {article.others?.is_today_pick && (
+                    <div className="absolute top-2 left-2">
+                      <span className="badge badge-accent text-white text-xs">
+                        Editor's Pick
+                      </span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <FaStar className="text-yellow-500" />
-                      <span>{article.rating.number}</span>
+                  )}
+                </figure>
+
+                <div className="card-body p-4">
+                  <h3 className="card-title text-base font-semibold text-primary line-clamp-2 group-hover:text-secondary transition-colors">
+                    {article.title}
+                  </h3>
+
+                  <p className="text-gray-600 text-sm line-clamp-2 mt-2">
+                    {article.details}
+                  </p>
+
+                  <div className="flex items-center justify-between mt-3 text-xs text-gray-500">
+                    <span>{article.author.name}</span>
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1">
+                        <FaEye />
+                        <span>{article.total_view}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <FaStar className="text-yellow-500" />
+                        <span>{article.rating.number}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </div>
 
-        {filteredNews.length > 12 && (
-          <div className="text-center mt-8">
-            <button className="btn btn-secondary btn-wide">
-              Load More Articles
-            </button>
-          </div>
-        )}
+        <div className="text-center mt-8">
+          <Link to="/category/0" className="btn btn-secondary btn-wide">
+            View All Articles
+          </Link>
+        </div>
       </motion.section>
     </div>
   );
