@@ -215,7 +215,7 @@ const Home = () => {
               >
                 <Link
                   to={`/news/${article.id}`}
-                  className="flex gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer group block"
+                  className="flex gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer group"
                 >
                   <img
                     src={getImageSrc(article.thumbnail_url)}
