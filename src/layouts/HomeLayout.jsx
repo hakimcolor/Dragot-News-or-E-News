@@ -27,30 +27,54 @@ const HomeLayout = () => {
                 Categories
               </h3>
               <div className="space-y-2">
-                <div className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors">
+                <Link
+                  to="/category/1"
+                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
+                >
                   📰 Breaking News
-                </div>
-                <div className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors">
+                </Link>
+                <Link
+                  to="/category/2"
+                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
+                >
                   💼 Business
-                </div>
-                <div className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors">
+                </Link>
+                <Link
+                  to="/category/3"
+                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
+                >
                   💻 Technology
-                </div>
-                <div className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors">
+                </Link>
+                <Link
+                  to="/category/5"
+                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
+                >
                   ⚽ Sports
-                </div>
-                <div className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors">
+                </Link>
+                <Link
+                  to="/category/6"
+                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
+                >
                   🎬 Entertainment
-                </div>
-                <div className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors">
+                </Link>
+                <Link
+                  to="/category/4"
+                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
+                >
                   🏥 Health
-                </div>
-                <div className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors">
+                </Link>
+                <Link
+                  to="/category/7"
+                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
+                >
                   🔬 Science
-                </div>
-                <div className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors">
+                </Link>
+                <Link
+                  to="/category/8"
+                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
+                >
                   🏛️ Politics
-                </div>
+                </Link>
               </div>
             </div>
           </aside>
