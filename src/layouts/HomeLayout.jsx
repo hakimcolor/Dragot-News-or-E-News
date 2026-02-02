@@ -94,45 +94,54 @@ const HomeLayout = () => {
                   🔥 Popular Today
                 </h3>
                 <div className="space-y-3">
-                  <div className="flex gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
+                  <Link
+                    to="/news/bcdefa0123456789bcdefa01"
+                    className="flex gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+                  >
                     <img
-                      src="https://via.placeholder.com/60x60"
+                      src={demoCardThumbnail}
                       alt="News"
                       className="w-12 h-12 object-cover rounded"
                     />
                     <div>
                       <p className="text-sm font-medium line-clamp-2">
-                        Breaking: Major tech announcement...
+                        Bangladesh's Export Earnings Show Strong Growth...
                       </p>
                       <p className="text-xs text-gray-500 mt-1">2 hours ago</p>
                     </div>
-                  </div>
-                  <div className="flex gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
+                  </Link>
+                  <Link
+                    to="/news/23456789abcdef0123456789"
+                    className="flex gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+                  >
                     <img
-                      src="https://via.placeholder.com/60x60"
+                      src={demoCardThumbnail}
                       alt="News"
                       className="w-12 h-12 object-cover rounded"
                     />
                     <div>
                       <p className="text-sm font-medium line-clamp-2">
-                        Economic growth shows positive...
+                        Central Bank Announces New Monetary Policy...
                       </p>
                       <p className="text-xs text-gray-500 mt-1">4 hours ago</p>
                     </div>
-                  </div>
-                  <div className="flex gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
+                  </Link>
+                  <Link
+                    to="/news/cdefab0123456789cdefab01"
+                    className="flex gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+                  >
                     <img
-                      src="https://via.placeholder.com/60x60"
+                      src={demoCardThumbnail}
                       alt="News"
                       className="w-12 h-12 object-cover rounded"
                     />
                     <div>
                       <p className="text-sm font-medium line-clamp-2">
-                        Sports update: Championship...
+                        Foreign Investment Reaches Record High...
                       </p>
                       <p className="text-xs text-gray-500 mt-1">6 hours ago</p>
                     </div>
-                  </div>
+                  </Link>
                 </div>
               </div>
 
