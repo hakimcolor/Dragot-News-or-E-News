@@ -4,9 +4,29 @@ import Header from '../Components/Header';
 import HeadLine from '../Components/HeadLine';
 import Footer from '../Components/Footer';
 import Navber from '../Components/Navber';
+import Weather from '../Components/Weather';
 import demoCardThumbnail from '../assets/demo-card-thumbnail.png';
 
 const HomeLayout = () => {
+  const location = useLocation();
+
+  // Function to check if a category link is active
+  const isCategoryActive = (categoryId) => {
+    return location.pathname === `/category/${categoryId}`;
+  };
+
+  // Category data for sidebar
+  const categories = [
+    { id: 1, name: 'Breaking News', emoji: '📰' },
+    { id: 2, name: 'Business', emoji: '💼' },
+    { id: 3, name: 'Technology', emoji: '💻' },
+    { id: 5, name: 'Sports', emoji: '⚽' },
+    { id: 6, name: 'Entertainment', emoji: '🎬' },
+    { id: 4, name: 'Health', emoji: '🏥' },
+    { id: 7, name: 'Science', emoji: '🔬' },
+    { id: 8, name: 'Politics', emoji: '🏛️' },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
@@ -28,54 +48,25 @@ const HomeLayout = () => {
                 Categories
               </h3>
               <div className="space-y-2">
-                <Link
-                  to="/category/1"
-                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
-                >
-                  📰 Breaking News
-                </Link>
-                <Link
-                  to="/category/2"
-                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
-                >
-                  💼 Business
-                </Link>
-                <Link
-                  to="/category/3"
-                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
-                >
-                  💻 Technology
-                </Link>
-                <Link
-                  to="/category/5"
-                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
-                >
-                  ⚽ Sports
-                </Link>
-                <Link
-                  to="/category/6"
-                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
-                >
-                  🎬 Entertainment
-                </Link>
-                <Link
-                  to="/category/4"
-                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
-                >
-                  🏥 Health
-                </Link>
-                <Link
-                  to="/category/7"
-                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
-                >
-                  🔬 Science
-                </Link>
-                <Link
-                  to="/category/8"
-                  className="p-2 hover:bg-gray-100 rounded cursor-pointer transition-colors block"
-                >
-                  🏛️ Politics
-                </Link>
+                {categories.map((category) => (
+                  <Link
+                    key={category.id}
+                    to={`/category/${category.id}`}
+                    className={`p-3 rounded-lg cursor-pointer transition-all duration-200 flex items-center gap-2 ${
+                      isCategoryActive(category.id)
+                        ? 'bg-secondary text-white shadow-md transform scale-105'
+                        : 'hover:bg-gray-100 text-gray-700 hover:text-secondary'
+                    }`}
+                  >
+                    <span className="text-lg">{category.emoji}</span>
+                    <span className="font-medium">{category.name}</span>
+                    {isCategoryActive(category.id) && (
+                      <span className="ml-auto text-xs bg-white bg-opacity-20 px-2 py-1 rounded-full">
+                        Active
+                      </span>
+                    )}
+                  </Link>
+                ))}
               </div>
             </div>
           </aside>
@@ -145,17 +136,8 @@ const HomeLayout = () => {
                 </div>
               </div>
 
-              {/* Weather Widget */}
-              <div className="bg-linear-to-br from-blue-500 to-blue-600 text-white rounded-lg shadow-sm p-4">
-                <h3 className="font-bold mb-3">🌤️ Weather</h3>
-                <div className="text-center">
-                  <div className="text-2xl font-bold">25°C</div>
-                  <div className="text-sm opacity-90">Partly Cloudy</div>
-                  <div className="text-xs opacity-75 mt-1">
-                    Dhaka, Bangladesh
-                  </div>
-                </div>
-              </div>
+              {/* Live Weather Widget */}
+              <Weather />
 
               {/* Newsletter Signup */}
               <div className="bg-secondary text-white rounded-lg shadow-sm p-4">
