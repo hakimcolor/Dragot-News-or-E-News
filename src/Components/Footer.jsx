@@ -202,7 +202,7 @@ const Footer = () => {
                 href="#"
                 className="text-gray-400 hover:text-secondary transition-colors"
               >
-                Terms  Service.
+                Terms  Service
               </a>
               <a
                 href="#"
