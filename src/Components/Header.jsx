@@ -14,7 +14,7 @@ const Header = () => {
     <header className="newspaper-header">
       {/* Top Bar */}
       <div className="bg-black text-white py-2">
-        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-sm">
+        <div className="container-90 flex justify-between items-center text-sm">
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-2">
               <FaGlobe className="text-secondary" />
@@ -48,7 +48,7 @@ const Header = () => {
 
       {/* Main Header */}
       <div className="bg-white border-b-4 border-secondary">
-        <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="container-90 py-4">
           <div className="flex flex-col lg:flex-row items-center justify-between">
             {/* Logo Section */}
             <Link
@@ -88,7 +88,7 @@ const Header = () => {
 
       {/* Breaking News Ticker */}
       <div className="breaking-news text-white py-2 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="container-90">
           <div className="flex items-center">
             <div className="flex items-center space-x-2 mr-6 shrink-0">
               <FaNewspaper className="text-lg" />

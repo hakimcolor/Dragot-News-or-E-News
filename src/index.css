@@ -22,6 +22,14 @@
   font-family: 'Inter', sans-serif;
 }
 
+/* Global body container — 90% width */
+.container-90 {
+  width: 90%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .font-serif {
   font-family: 'Playfair Display', serif;
 }
@@ -49,8 +57,8 @@
 
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
 }
 
 .featured-article {

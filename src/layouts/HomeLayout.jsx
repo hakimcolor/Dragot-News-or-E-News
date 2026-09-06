@@ -10,8 +10,10 @@ const HomeLayout = () => {
       <Header />
       <Navber />
 
-      <main className="flex-1">
-        <Outlet />
+      <main className="flex-1 py-6">
+        <div className="container-90">
+          <Outlet />
+        </div>
       </main>
 
       <Footer />

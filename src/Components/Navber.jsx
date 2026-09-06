@@ -33,7 +33,7 @@ const Navber = () => {
 
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="container-90">
         <div className="flex justify-between items-center h-16">
           {/* Main Navigation */}
           <div className="hidden md:flex items-center space-x-8">
