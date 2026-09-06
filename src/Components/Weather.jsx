@@ -5,108 +5,80 @@ import {
   FaTint,
   FaWind,
   FaMapMarkerAlt,
+  FaSyncAlt,
 } from 'react-icons/fa';
+
+const weatherCodeMap = {
+  113: { label: 'Sunny', emoji: '☀️' },
+  116: { label: 'Partly Cloudy', emoji: '⛅' },
+  119: { label: 'Cloudy', emoji: '☁️' },
+  122: { label: 'Overcast', emoji: '🌥️' },
+  143: { label: 'Mist', emoji: '🌫️' },
+  176: { label: 'Patchy Rain', emoji: '🌦️' },
+  200: { label: 'Thundery Rain', emoji: '⛈️' },
+  227: { label: 'Blowing Snow', emoji: '🌨️' },
+  248: { label: 'Fog', emoji: '🌫️' },
+  260: { label: 'Freezing Fog', emoji: '🌫️' },
+  263: { label: 'Drizzle', emoji: '🌧️' },
+  293: { label: 'Light Rain', emoji: '🌧️' },
+  302: { label: 'Moderate Rain', emoji: '🌧️' },
+  308: { label: 'Heavy Rain', emoji: '🌧️' },
+  353: { label: 'Light Showers', emoji: '🌦️' },
+  389: { label: 'Thunderstorm', emoji: '⛈️' },
+};
+
+const getWeatherInfo = (code) =>
+  weatherCodeMap[code] || { label: 'Unknown', emoji: '🌤️' };
 
 const Weather = () => {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState(null);
+
+  const fetchWeather = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // wttr.in — completely free, no API key required
+      const res = await fetch('https://wttr.in/Dhaka?format=j1', {
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!res.ok) throw new Error('Network response not ok');
+      const data = await res.json();
+      const current = data.current_condition[0];
+      setWeather({
+        temp: current.temp_C,
+        feelsLike: current.FeelsLikeC,
+        humidity: current.humidity,
+        windSpeed: current.windspeedKmph,
+        visibility: current.visibility,
+        weatherCode: parseInt(current.weatherCode),
+        description: current.weatherDesc[0].value,
+      });
+      setLastUpdated(new Date());
+    } catch (err) {
+      setError('Could not load weather');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchWeather = async () => {
-      try {
-        // Using OpenWeatherMap API (you can replace with any weather API)
-        // For demo purposes, I'll use a mock weather data
-        // In production, you would use: `https://api.openweathermap.org/data/2.5/weather?q=Dhaka,BD&appid=YOUR_API_KEY&units=metric`
-
-        // Simulating API call with realistic weather data for Dhaka
-        setTimeout(() => {
-          const mockWeatherData = {
-            name: 'Dhaka',
-            main: {
-              temp: Math.round(25 + Math.random() * 10), // Random temp between 25-35°C
-              feels_like: Math.round(28 + Math.random() * 8),
-              humidity: Math.round(60 + Math.random() * 30),
-            },
-            weather: [
-              {
-                main: getRandomWeather(),
-                description: getRandomDescription(),
-                icon: getRandomIcon(),
-              },
-            ],
-            wind: {
-              speed: Math.round(5 + Math.random() * 10), // Wind speed in m/s
-            },
-            visibility: Math.round(8000 + Math.random() * 2000), // Visibility in meters
-          };
-
-          setWeather(mockWeatherData);
-          setLoading(false);
-        }, 1000);
-      } catch (err) {
-        setError('Failed to fetch weather data');
-        setLoading(false);
-      }
-    };
-
     fetchWeather();
-
-    // Update weather every 10 minutes
     const interval = setInterval(fetchWeather, 600000);
     return () => clearInterval(interval);
   }, []);
 
-  const getRandomWeather = () => {
-    const conditions = ['Clear', 'Clouds', 'Rain', 'Haze', 'Mist'];
-    return conditions[Math.floor(Math.random() * conditions.length)];
-  };
-
-  const getRandomDescription = () => {
-    const descriptions = [
-      'clear sky',
-      'few clouds',
-      'scattered clouds',
-      'light rain',
-      'haze',
-      'mist',
-    ];
-    return descriptions[Math.floor(Math.random() * descriptions.length)];
-  };
-
-  const getRandomIcon = () => {
-    const icons = ['01d', '02d', '03d', '04d', '09d', '10d', '50d'];
-    return icons[Math.floor(Math.random() * icons.length)];
-  };
-
-  const getWeatherEmoji = (condition) => {
-    const emojiMap = {
-      Clear: '☀️',
-      Clouds: '☁️',
-      Rain: '🌧️',
-      Haze: '🌫️',
-      Mist: '🌫️',
-      Thunderstorm: '⛈️',
-      Snow: '❄️',
-    };
-    return emojiMap[condition] || '🌤️';
-  };
-
-  const getCurrentTime = () => {
-    return new Date().toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-    });
-  };
-
   if (loading) {
     return (
-      <div className="bg-linear-to-br from-blue-500 to-blue-600 text-white rounded-lg shadow-sm p-4">
-        <h3 className="font-bold mb-3">🌤️ Weather</h3>
-        <div className="text-center">
-          <div className="loading loading-spinner loading-sm"></div>
-          <div className="text-sm opacity-75 mt-2">Loading weather...</div>
+      <div className="weather-widget">
+        <div className="weather-header">
+          <span>🌤️ Live Weather</span>
+        </div>
+        <div className="flex flex-col items-center justify-center py-6 gap-2">
+          <div className="loading loading-spinner loading-md text-white"></div>
+          <span className="text-xs text-blue-100">Fetching weather...</span>
         </div>
       </div>
     );
@@ -114,76 +86,93 @@ const Weather = () => {
 
   if (error) {
     return (
-      <div className="bg-linear-to-br from-gray-500 to-gray-600 text-white rounded-lg shadow-sm p-4">
-        <h3 className="font-bold mb-3">🌤️ Weather</h3>
-        <div className="text-center">
-          <div className="text-sm opacity-75">Weather unavailable</div>
-          <div className="text-xs opacity-60 mt-1">Dhaka, Bangladesh</div>
+      <div className="weather-widget">
+        <div className="weather-header">🌤️ Weather</div>
+        <div className="flex flex-col items-center py-4 gap-2 text-center">
+          <span className="text-2xl">😶‍🌫️</span>
+          <span className="text-sm text-blue-100">{error}</span>
+          <button
+            onClick={fetchWeather}
+            className="mt-2 flex items-center gap-1 text-xs bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full transition-colors"
+          >
+            <FaSyncAlt className="text-xs" /> Retry
+          </button>
         </div>
       </div>
     );
   }
 
+  const { emoji, label } = getWeatherInfo(weather.weatherCode);
+
   return (
-    <div className="bg-linear-to-br from-blue-500 to-blue-600 text-white rounded-lg shadow-sm p-4">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="font-bold">🌤️ Live Weather</h3>
-        <span className="text-xs opacity-75">{getCurrentTime()}</span>
+    <div className="weather-widget">
+      {/* Header */}
+      <div className="weather-header">
+        <span>🌤️ Live Weather</span>
+        <button
+          onClick={fetchWeather}
+          className="text-xs text-blue-200 hover:text-white transition-colors"
+          title="Refresh"
+        >
+          <FaSyncAlt />
+        </button>
       </div>
 
-      <div className="text-center mb-4">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <span className="text-2xl">
-            {getWeatherEmoji(weather.weather[0].main)}
-          </span>
-          <div className="text-3xl font-bold">{weather.main.temp}°C</div>
+      {/* Main temp display */}
+      <div className="flex flex-col items-center py-4">
+        <span className="text-5xl mb-1">{emoji}</span>
+        <div className="text-4xl font-bold tracking-tight">
+          {weather.temp}°C
         </div>
-        <div className="text-sm opacity-90 capitalize">
-          {weather.weather[0].description}
-        </div>
-        <div className="flex items-center justify-center gap-1 text-xs opacity-75 mt-1">
+        <div className="text-sm text-blue-100 capitalize mt-1">{label}</div>
+        <div className="flex items-center gap-1 text-xs text-blue-200 mt-1">
           <FaMapMarkerAlt />
-          <span>{weather.name}, Bangladesh</span>
+          <span>Dhaka, Bangladesh</span>
         </div>
       </div>
 
-      <div className="space-y-2 text-xs">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <FaThermometerHalf />
-            <span>Feels like</span>
+      {/* Stats grid */}
+      <div className="grid grid-cols-2 gap-2 text-xs">
+        <div className="weather-stat">
+          <FaThermometerHalf className="text-orange-300" />
+          <div>
+            <div className="text-blue-200">Feels like</div>
+            <div className="font-semibold">{weather.feelsLike}°C</div>
           </div>
-          <span>{weather.main.feels_like}°C</span>
         </div>
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <FaTint />
-            <span>Humidity</span>
+        <div className="weather-stat">
+          <FaTint className="text-cyan-300" />
+          <div>
+            <div className="text-blue-200">Humidity</div>
+            <div className="font-semibold">{weather.humidity}%</div>
           </div>
-          <span>{weather.main.humidity}%</span>
         </div>
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <FaWind />
-            <span>Wind</span>
+        <div className="weather-stat">
+          <FaWind className="text-green-300" />
+          <div>
+            <div className="text-blue-200">Wind</div>
+            <div className="font-semibold">{weather.windSpeed} km/h</div>
           </div>
-          <span>{weather.wind.speed} m/s</span>
         </div>
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <FaEye />
-            <span>Visibility</span>
+        <div className="weather-stat">
+          <FaEye className="text-yellow-300" />
+          <div>
+            <div className="text-blue-200">Visibility</div>
+            <div className="font-semibold">{weather.visibility} km</div>
           </div>
-          <span>{(weather.visibility / 1000).toFixed(1)} km</span>
         </div>
       </div>
 
-      <div className="mt-3 pt-2 border-t border-blue-400 text-xs opacity-75 text-center">
-        Last updated: {new Date().toLocaleTimeString()}
-      </div>
+      {/* Footer */}
+      {lastUpdated && (
+        <div className="mt-3 pt-2 border-t border-blue-400/40 text-xs text-blue-200 text-center">
+          Updated{' '}
+          {lastUpdated.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        </div>
+      )}
     </div>
   );
 };

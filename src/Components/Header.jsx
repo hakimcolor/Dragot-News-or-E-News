@@ -1,19 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { FaNewspaper, FaGlobe, FaSearch, FaBell, FaUser } from 'react-icons/fa';
 import logo from '../assets/logo.png';
 
 const Header = () => {
+  const [scrolled, setScrolled] = useState(false);
   const today = new Date();
   const dayName = format(today, 'EEEE');
   const fullDate = format(today, 'MMMM do, yyyy');
   const time = format(today, 'h:mm a');
 
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className="newspaper-header">
-      {/* Top Bar */}
-      <div className="bg-black text-white py-2">
+    <header
+      className={`newspaper-header sticky top-0 z-50 transition-all duration-300 ease-in-out ${
+        scrolled ? 'shadow-2xl' : ''
+      }`}
+    >
+      {/* Top Bar — hides on scroll */}
+      <div
+        className={`bg-black text-white overflow-hidden transition-all duration-300 ease-in-out ${
+          scrolled ? 'max-h-0 py-0 opacity-0' : 'max-h-12 py-2 opacity-100'
+        }`}
+      >
         <div className="container-90 flex justify-between items-center text-sm">
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-2">
@@ -46,41 +61,61 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Main Header */}
+      {/* Main Header — shrinks on scroll */}
       <div className="bg-white border-b-4 border-secondary">
-        <div className="container-90 py-4">
-          <div className="flex flex-col lg:flex-row items-center justify-between">
-            {/* Logo Section */}
+        <div className="container-90">
+          <div
+            className={`flex flex-col lg:flex-row items-center justify-between transition-all duration-300 ease-in-out ${
+              scrolled ? 'py-2' : 'py-4'
+            }`}
+          >
+            {/* Logo */}
             <Link
               to="/"
-              className="flex flex-col items-center lg:items-start mb-4 lg:mb-0"
+              className="flex flex-col items-center lg:items-start mb-2 lg:mb-0"
             >
               <div className="flex items-center space-x-3">
                 <img
                   src={logo}
                   alt="Dragon News"
-                  className="h-12 w-12 object-contain"
+                  className={`object-contain transition-all duration-300 ${
+                    scrolled ? 'h-7 w-7' : 'h-12 w-12'
+                  }`}
                 />
                 <div>
-                  <h1 className="text-headline text-4xl lg:text-5xl text-primary font-serif">
+                  <h1
+                    className={`text-headline text-primary font-serif transition-all duration-300 ${
+                      scrolled ? 'text-2xl lg:text-3xl' : 'text-4xl lg:text-5xl'
+                    }`}
+                  >
                     Dragon News
                   </h1>
-                  <p className="text-sm text-gray-600 font-medium tracking-wide">
-                    JOURNALISM WITHOUT FEAR OR FAVOUR
-                  </p>
+                  {!scrolled && (
+                    <p className="text-sm text-gray-600 font-medium tracking-wide">
+                      JOURNALISM WITHOUT FEAR OR FAVOUR
+                    </p>
+                  )}
                 </div>
               </div>
             </Link>
 
-            {/* Weather & Date Info */}
+            {/* Date Info */}
             <div className="hidden lg:flex flex-col items-end text-right">
-              <div className="text-2xl font-serif font-bold text-primary">
+              <div
+                className={`font-serif font-bold text-primary transition-all duration-300 ${
+                  scrolled ? 'text-base' : 'text-2xl'
+                }`}
+              >
                 {dayName}
               </div>
-              <div className="text-lg text-gray-700">{fullDate}</div>
-              <div className="text-sm text-gray-500 mt-1">
-                {time} • Dhaka Time
-              </div>
+              {!scrolled && (
+                <>
+                  <div className="text-lg text-gray-700">{fullDate}</div>
+                  <div className="text-sm text-gray-500 mt-1">
+                    {time} • Dhaka Time
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -93,7 +128,7 @@ const Header = () => {
             <div className="flex items-center space-x-2 mr-6 shrink-0">
               <FaNewspaper className="text-lg" />
               <span className="font-bold text-sm uppercase tracking-wide">
-                Breaking News
+                Breaking
               </span>
             </div>
             <div className="flex animate-marquee whitespace-nowrap">
@@ -118,14 +153,10 @@ const Header = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes marquee {
-          0% {
-            transform: translateX(100%);
-          }
-          100% {
-            transform: translateX(-100%);
-          }
+          0% { transform: translateX(100%); }
+          100% { transform: translateX(-100%); }
         }
         .animate-marquee {
           animation: marquee 30s linear infinite;
