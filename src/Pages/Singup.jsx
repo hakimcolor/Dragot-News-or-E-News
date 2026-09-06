@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
-import { FaUser, FaEnvelope, FaLock, FaGithub } from 'react-icons/fa';
-import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaGithub,
+  FaNewspaper,
+} from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
+import { NavLink } from 'react-router-dom';
 
 const Singup = () => {
   const [name, setName] = useState('');
@@ -11,106 +17,124 @@ const Singup = () => {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    alert(
-      `Name: ${name}\nProfile Image URL: ${imgUrl}\nEmail: ${email}\nPassword: ${password}`
-    );
+    alert(`Name: ${name}\nEmail: ${email}`);
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <form
-        onSubmit={handleSignup}
-        className="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md border border-gray-200"
-      >
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
-          Create Your Account
-        </h2>
-        <hr className="mb-6 border-gray-300" />
-
-        <label className="block text-gray-700 mb-2 font-medium">
-          First Name
-        </label>
-        <div className="flex items-center border rounded-lg mb-4 px-3 py-2 transition-all duration-300 focus-within:ring-2 focus-within:ring-red-500 focus-within:scale-105">
-          <FaUser className="text-red-500 mr-2" />
-          <input
-            type="text"
-            placeholder="Enter your first name"
-            className="w-full outline-none text-gray-900 bg-transparent"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+    <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4 py-8">
+      <div className="w-full max-w-sm">
+        {/* Brand */}
+        <div className="text-center mb-6">
+          <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mx-auto mb-3">
+            <FaNewspaper className="text-white text-xl" />
+          </div>
+          <h1 className="text-2xl font-serif font-bold text-gray-900">
+            Dragon News
+          </h1>
+          <p className="text-xs text-gray-500 mt-1">Create your free account</p>
         </div>
 
-        <label className="block text-gray-700 mb-2 font-medium">
-          Profile Image URL
-        </label>
-        <div className="flex items-center border rounded-lg mb-4 px-3 py-2 transition-all duration-300 focus-within:ring-2 focus-within:ring-red-500 focus-within:scale-105">
-          <FaUser className="text-red-500 mr-2" />
-          <input
-            type="text"
-            placeholder="Enter image URL"
-            className="w-full outline-none text-gray-900 bg-transparent"
-            value={imgUrl}
-            onChange={(e) => setImgUrl(e.target.value)}
-          />
-        </div>
-
-        <label className="block text-gray-700 mb-2 font-medium">
-          Email Address
-        </label>
-        <div className="flex items-center border rounded-lg mb-4 px-3 py-2 transition-all duration-300 focus-within:ring-2 focus-within:ring-yellow-500 focus-within:scale-105">
-          <FaEnvelope className="text-yellow-500 mr-2" />
-          <input
-            type="email"
-            placeholder="Enter your email"
-            className="w-full outline-none text-gray-900 bg-transparent"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <label className="block text-gray-700 mb-2 font-medium">Password</label>
-        <div className="flex items-center border rounded-lg mb-6 px-3 py-2 transition-all duration-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:scale-105">
-          <FaLock className="text-blue-500 mr-2" />
-          <input
-            type="password"
-            placeholder="Create a password"
-            className="w-full outline-none text-gray-900 bg-transparent"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full py-2 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold shadow-lg hover:opacity-90 transition-all duration-300 mb-4 cursor-pointer"
+        <form
+          onSubmit={handleSignup}
+          className="bg-white shadow-lg rounded-2xl p-6 border border-gray-100"
         >
-          Sign Up
-        </button>
+          <h2 className="text-lg font-bold text-gray-800 mb-5">Get started</h2>
 
-        <p className="text-center text-gray-500 mb-4">Or continue with</p>
-        <div className="flex justify-center gap-4 mb-4">
-          <button className="flex items-center gap-2 border rounded-lg px-4 py-2 hover:bg-gray-100 transition-colors cursor-pointer">
-            <FcGoogle className="" /> Google
-          </button>
-          <button className="flex items-center gap-2 border rounded-lg px-4 py-2 hover:bg-gray-100 transition-colors cursor-pointer">
-            <FaGithub className="text-gray-800" /> GitHub
-          </button>
-        </div>
+          {[
+            {
+              label: 'Full Name',
+              icon: FaUser,
+              type: 'text',
+              val: name,
+              set: setName,
+              ph: 'John Doe',
+              req: true,
+            },
+            {
+              label: 'Profile Image URL',
+              icon: FaUser,
+              type: 'text',
+              val: imgUrl,
+              set: setImgUrl,
+              ph: 'https://...',
+              req: false,
+            },
+            {
+              label: 'Email Address',
+              icon: FaEnvelope,
+              type: 'email',
+              val: email,
+              set: setEmail,
+              ph: 'you@example.com',
+              req: true,
+            },
+            {
+              label: 'Password',
+              icon: FaLock,
+              type: 'password',
+              val: password,
+              set: setPassword,
+              ph: 'Create a password',
+              req: true,
+            },
+          ].map(({ label, icon: Icon, type, val, set, ph, req }) => (
+            <div key={label}>
+              <label className="block text-gray-700 text-sm mb-1 font-medium">
+                {label}
+              </label>
+              <div className="flex items-center border border-gray-200 rounded-lg mb-4 px-3 py-2.5 transition-all focus-within:ring-2 focus-within:ring-secondary/40 focus-within:border-secondary">
+                <Icon className="text-gray-400 mr-2 text-sm shrink-0" />
+                <input
+                  type={type}
+                  placeholder={ph}
+                  required={req}
+                  className="w-full outline-none text-gray-900 text-sm bg-transparent"
+                  value={val}
+                  onChange={(e) => set(e.target.value)}
+                />
+              </div>
+            </div>
+          ))}
 
-        <div className="text-center text-gray-700">
-          Already have an account?{' '}
-          <NavLink
-            to="/login"
-            className="text-blue-600 hover:underline font-semibold"
+          <button
+            type="submit"
+            className="w-full py-2.5 rounded-lg bg-secondary hover:bg-red-700 text-white text-sm font-semibold shadow transition-all mb-4 cursor-pointer"
           >
-            Login
-          </NavLink>
-        </div>
-      </form>
+            Create Account
+          </button>
+
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex-1 h-px bg-gray-200"></div>
+            <span className="text-xs text-gray-400">or continue with</span>
+            <div className="flex-1 h-px bg-gray-200"></div>
+          </div>
+
+          <div className="flex gap-3 mb-4">
+            <button
+              type="button"
+              className="flex-1 flex items-center justify-center gap-2 border border-gray-200 rounded-lg py-2 text-xs hover:bg-gray-50 transition-colors cursor-pointer"
+            >
+              <FcGoogle /> Google
+            </button>
+            <button
+              type="button"
+              className="flex-1 flex items-center justify-center gap-2 border border-gray-200 rounded-lg py-2 text-xs hover:bg-gray-50 transition-colors cursor-pointer"
+            >
+              <FaGithub className="text-gray-800" /> GitHub
+            </button>
+          </div>
+
+          <p className="text-center text-xs text-gray-500">
+            Already have an account?{' '}
+            <NavLink
+              to="/login"
+              className="text-secondary hover:underline font-semibold"
+            >
+              Sign In
+            </NavLink>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
