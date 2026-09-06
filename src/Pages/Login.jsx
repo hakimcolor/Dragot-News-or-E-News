@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaNewspaper } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 
 const Login = () => {
@@ -12,64 +12,75 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md border border-gray-300"
-      >
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
-          Login to Your Account
-        </h2>
-        <hr className="mb-6 border-gray-400" />
-
-        <label className="block text-gray-800 mb-2 font-medium">
-          Email Address
-        </label>
-        <div className="flex items-center border rounded-lg mb-4 px-3 py-2 transition-all duration-300 focus-within:ring-2 focus-within:ring-yellow-500">
-          <FaEnvelope className="text-yellow-500 mr-2" />
-          <input
-            type="email"
-            placeholder="Enter your email"
-            className="w-full outline-none text-gray-900 bg-transparent"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+    <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
+      <div className="w-full max-w-sm">
+        {/* Brand */}
+        <div className="text-center mb-6">
+          <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mx-auto mb-3">
+            <FaNewspaper className="text-white text-xl" />
+          </div>
+          <h1 className="text-2xl font-serif font-bold text-gray-900">
+            Dragon News
+          </h1>
+          <p className="text-xs text-gray-500 mt-1">Sign in to your account</p>
         </div>
 
-        <label className="block text-gray-800 mb-2 font-medium">Password</label>
-        <div className="flex items-center border rounded-lg mb-6 px-3 py-2 transition-all duration-300 focus-within:ring-2 focus-within:ring-red-500">
-          <FaLock className="text-red-500 mr-2" />
-          <input
-            type="password"
-            placeholder="Enter your password"
-            className="w-full outline-none text-gray-900 bg-transparent"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full py-2 rounded-lg bg-gradient-to-r from-gray-800 to-gray-600 text-white font-semibold shadow-lg hover:opacity-90 transition-all duration-300 cursor-pointer"
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white shadow-lg rounded-2xl p-6 border border-gray-100"
         >
-          Login
-        </button>
+          <h2 className="text-lg font-bold text-gray-800 mb-5">Welcome back</h2>
 
-        <div className="flex justify-between items-center mt-4 text-sm text-gray-700">
-          <a href="#" className="hover:text-yellow-600 hover:underline">
-            Forgot Password?
-          </a>
-          <NavLink
-            to="singup"
-            className="hover:text-red-600 hover:underline font-medium"
+          <label className="block text-gray-700 text-sm mb-1 font-medium">
+            Email Address
+          </label>
+          <div className="flex items-center border border-gray-200 rounded-lg mb-4 px-3 py-2.5 transition-all focus-within:ring-2 focus-within:ring-secondary/40 focus-within:border-secondary">
+            <FaEnvelope className="text-gray-400 mr-2 text-sm shrink-0" />
+            <input
+              type="email"
+              placeholder="you@example.com"
+              className="w-full outline-none text-gray-900 text-sm bg-transparent"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <label className="block text-gray-700 text-sm mb-1 font-medium">
+            Password
+          </label>
+          <div className="flex items-center border border-gray-200 rounded-lg mb-5 px-3 py-2.5 transition-all focus-within:ring-2 focus-within:ring-secondary/40 focus-within:border-secondary">
+            <FaLock className="text-gray-400 mr-2 text-sm shrink-0" />
+            <input
+              type="password"
+              placeholder="Enter your password"
+              className="w-full outline-none text-gray-900 text-sm bg-transparent"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-2.5 rounded-lg bg-secondary hover:bg-red-700 text-white text-sm font-semibold shadow transition-all duration-300 cursor-pointer"
           >
-            Don’t have an account?{' '}
-            <span className="font-semibold">Register</span>
-          </NavLink>
-        </div>
-      </form>
+            Sign In
+          </button>
+
+          <div className="flex justify-between items-center mt-4 text-xs text-gray-500">
+            <a href="#" className="hover:text-secondary transition-colors">
+              Forgot Password?
+            </a>
+            <NavLink
+              to="singup"
+              className="hover:text-secondary font-medium transition-colors"
+            >
+              Create an account
+            </NavLink>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
